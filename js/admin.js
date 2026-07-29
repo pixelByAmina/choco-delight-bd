@@ -1014,6 +1014,7 @@ function dismissTypeNotifs(type) {
   saveNotifs(n);
   renderNotifDropdown();
   updateNotifBell();
+  renderNotificationsTable();
 }
 
 function dismissAllNotifs() {
@@ -1099,7 +1100,7 @@ function renderNotificationsTable() {
         <td>${escHtml(x.title)}</td>
         <td>${escHtml(x.desc)}</td>
         <td>${timeAgo(x.date)}</td>
-        <td><button class="btn btn-sm" onclick="dismissNotif('${x.id}');renderNotificationsTable();" title="Mark as read"><i class="fas fa-check"></i></button></td>
+        <td><button class="btn btn-sm" onclick="dismissNotif('${x.id}')" title="Mark as read"><i class="fas fa-check"></i></button></td>
       </tr>`;
     }).join('');
     adminPagination('notifPagination', p, Math.ceil(total / perPage), np => { page = np; render(np); });
