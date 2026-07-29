@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Us - ChocoDelight BD</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <div class="toast" id="toast"></div>
+
+  <header class="header" id="header">
+    <div class="container">
+      <nav class="navbar">
+        <a href="index.html" class="logo">
+          <div class="logo-icon">&#127851;</div>
+          <span data-dynamic="logo">ChocoDelight BD</span>
+        </a>
+        <ul class="nav-links" id="navLinks" data-dynamic="menu">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="shop.html">Shop</a></li>
+          <li><a href="about.html" class="active">About</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+        <div class="nav-icons">
+          <a href="#" class="nav-icon" onclick="event.preventDefault(); showWishlist()">
+            <i class="far fa-heart"></i>
+          </a>
+          <a href="checkout.html" class="nav-icon">
+            <i class="fas fa-shopping-bag"></i>
+            <span class="cart-count" id="cartCount">0</span>
+          </a>
+          <div class="hamburger" id="hamburger">
+            <span></span><span></span><span></span>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <section class="page-header" style="background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://img.freepik.com/free-photo/delicious-chocolate-truffles-arrangement_23-2151704567.jpg') center/cover no-repeat;">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="index.html">Home</a> <span>/</span> <span>About</span>
+      </div>
+      <h1 data-dynamic="aboutTitle">About ChocoDelight BD</h1>
+      <p data-dynamic="aboutDesc">Our story of passion, quality, and sweet moments</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="about-content">
+        <div class="about-image fade-in-left">
+          <img src="assets/images/about_us_header.jpg" alt="ChocoDelight BD Chocolates" class="about-image-circle">
+        </div>
+        <div class="about-text fade-in-right">
+          <h2 data-dynamic="aboutSectionTitle">Handcrafted with Passion</h2>
+          <p data-dynamic="aboutPara1"><strong>ChocoDelight BD</strong> was founded by <strong>Amina Begum</strong> with a simple vision: to bring world-class chocolate experiences to Bangladesh. What started as a small home kitchen experiment in Dhaka has grown into one of the country's most beloved chocolate brands.</p>
+          <p data-dynamic="aboutPara2">We use only the finest Belgian cocoa beans, pure dairy from local farms, and natural ingredients to create chocolates that rival international standards. Every piece is handcrafted with care by our expert chocolatiers.</p>
+          <p data-dynamic="aboutPara3">From our signature dark chocolate bars to elegant gift hampers, each product tells a story of passion, quality, and the rich flavors of Bangladesh.</p>
+        </div>
+        </div>
+    </div>
+  </section>
+
+
+  <section class="section">
+    <div class="container">
+      <div class="stats-grid fade-in">
+        <div class="stat-card">
+          <h3>500+</h3>
+          <p>Happy Customers</p>
+        </div>
+        <div class="stat-card">
+          <h3>64</h3>
+          <p>Districts Covered</p>
+        </div>
+        <div class="stat-card">
+          <h3>50+</h3>
+          <p>Chocolate Varieties</p>
+        </div>
+        <div class="stat-card">
+          <h3>4.9</h3>
+          <p>Customer Rating</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="background: var(--white);">
+    <div class="container">
+      <h2 class="section-title fade-in" data-dynamic="aboutWhyTitle">Why Choose ChocoDelight BD?</h2>
+      <p class="section-subtitle fade-in" data-dynamic="aboutWhySubtitle">We're committed to excellence in every bite</p>
+      <div class="testimonial-grid stagger-children" style="margin-top: 20px;">
+        <div class="testimonial-card">
+          <div style="font-size:2.5rem; margin-bottom:15px;">&#127792;</div>
+          <h4 style="font-family:'Playfair Display'; margin-bottom:8px;">Premium Ingredients</h4>
+          <p style="color:var(--gray); font-size:0.9rem;">We source the finest Belgian cocoa and local dairy for unparalleled taste.</p>
+        </div>
+        <div class="testimonial-card">
+          <div style="font-size:2.5rem; margin-bottom:15px;">&#128666;</div>
+          <h4 style="font-family:'Playfair Display'; margin-bottom:8px;">Nationwide Delivery</h4>
+          <p style="color:var(--gray); font-size:0.9rem;">Free shipping to all 64 districts of Bangladesh for orders over BDT 1,000.</p>
+        </div>
+        <div class="testimonial-card">
+          <div style="font-size:2.5rem; margin-bottom:15px;">&#128179;</div>
+          <h4 style="font-family:'Playfair Display'; margin-bottom:8px;">Secure Payments</h4>
+          <p style="color:var(--gray); font-size:0.9rem;">bKash, Nagad, Rocket, cards and Cash on Delivery available.</p>
+        </div>
+        <div class="testimonial-card">
+          <div style="font-size:2.5rem; margin-bottom:15px;">&#127873;</div>
+          <h4 style="font-family:'Playfair Display'; margin-bottom:8px;">Beautiful Packaging</h4>
+          <p style="color:var(--gray); font-size:0.9rem;">Elegant, eco-friendly packaging perfect for gifting.</p>
+        </div>
+        <div class="testimonial-card">
+          <div style="font-size:2.5rem; margin-bottom:15px;">&#128101;</div>
+          <h4 style="font-family:'Playfair Display'; margin-bottom:8px;">Woman-Owned Business</h4>
+          <p style="color:var(--gray); font-size:0.9rem;">Proudly owned by Amina Begum, empowering women in Bangladesh.</p>
+        </div>
+        <div class="testimonial-card">
+          <div style="font-size:2.5rem; margin-bottom:15px;">&#129360;</div>
+          <h4 style="font-family:'Playfair Display'; margin-bottom:8px;">Freshness Guaranteed</h4>
+          <p style="color:var(--gray); font-size:0.9rem;">Made fresh in small batches. Every order is hand-packed on the day of shipping.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="logo">
+            <div class="logo-icon">&#127851;</div>
+            <span data-dynamic="logo">ChocoDelight BD</span>
+          </a>
+          <p data-dynamic="footer">Bangladesh's premium chocolate brand, handcrafting joy since 2020.</p>
+          <div class="footer-social">
+            <a href="#" data-dynamic="footerSocial-facebook" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" data-dynamic="footerSocial-instagram" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="#" data-dynamic="footerSocial-youtube" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+            <a href="#" data-dynamic="footerSocial-whatsapp" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+          </div>
+        </div>
+        <div>
+          <h4>Quick Links</h4>
+          <ul class="footer-links" data-dynamic="footerQuickLinks">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="shop.html">Shop</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Categories</h4>
+          <ul class="footer-links" data-dynamic="footerCategoryLinks">
+            <li><a href="shop.html?category=Dark">Dark Chocolate</a></li>
+            <li><a href="shop.html?category=Milk">Milk Chocolate</a></li>
+            <li><a href="shop.html?category=Gift Hampers">Gift Hampers</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Contact Us</h4>
+          <ul class="footer-contact">
+            <li><i class="fas fa-map-marker-alt"></i> <span data-dynamic="footer-address">42 Gulshan Avenue, Dhaka 1212, Bangladesh</span></li>
+            <li><i class="fas fa-phone"></i> <span data-dynamic="footer-phone">+880 1712-345678</span></li>
+            <li><i class="fas fa-envelope"></i> <span data-dynamic="footer-email">hello@chocodelightbd.com</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span data-dynamic="copyright">&copy; 2026 ChocoDelight BD | Owned by <strong>Amina Begum</strong></span>
+        <span>Made with &#10084; in Bangladesh</span>
+      </div>
+    </div>
+  </footer>
+
+  <button class="back-to-top" id="backToTop" aria-label="Back to top">
+    <i class="fas fa-chevron-up"></i>
+  </button>
+
+  <div class="confirmation-overlay" id="wishlistOverlay">
+    <div class="confirmation-modal">
+      <div class="confirmation-icon" style="background: var(--accent);">&#10084;</div>
+      <h2>Your Wishlist</h2>
+      <div id="wishlistItems" style="margin: 20px 0;"><p style="color: var(--gray);">Your wishlist is empty.</p></div>
+      <button class="btn btn-primary" onclick="closeWishlist()">Close</button>
+    </div>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/cart.js"></script>
+</body>
+</html>

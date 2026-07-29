@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shop - ChocoDelight BD</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <div class="toast" id="toast"></div>
+
+  <header class="header" id="header">
+    <div class="container">
+      <nav class="navbar">
+        <a href="index.html" class="logo">
+          <div class="logo-icon">&#127851;</div>
+          <span data-dynamic="logo">ChocoDelight BD</span>
+        </a>
+        <ul class="nav-links" id="navLinks" data-dynamic="menu">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="shop.html" class="active">Shop</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+        <div class="nav-icons">
+          <a href="#" class="nav-icon" title="Search" onclick="event.preventDefault(); document.getElementById('searchInput').focus()">
+            <i class="fas fa-search"></i>
+          </a>
+          <a href="#" class="nav-icon" title="Wishlist" onclick="event.preventDefault(); showWishlist()">
+            <i class="far fa-heart"></i>
+          </a>
+          <a href="checkout.html" class="nav-icon" title="Cart">
+            <i class="fas fa-shopping-bag"></i>
+            <span class="cart-count" id="cartCount">0</span>
+          </a>
+          <div class="hamburger" id="hamburger">
+            <span></span><span></span><span></span>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <section class="page-header">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="index.html">Home</a> <span>/</span> <span>Shop</span>
+      </div>
+      <h1 data-dynamic="shopTitle">Our Collection</h1>
+      <p data-dynamic="shopDesc">Discover handcrafted premium chocolates for every occasion</p>
+    </div>
+  </section>
+
+  <section class="shop-layout container">
+    <aside class="sidebar">
+      <div class="sidebar-section">
+        <h3>Search</h3>
+        <div class="search-bar">
+          <i class="fas fa-search"></i>
+          <input type="text" id="searchInput" placeholder="Search chocolates..." oninput="filterProducts()">
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <h3>Categories</h3>
+        <div class="filter-group" id="categoryFilters"></div>
+      </div>
+
+      <div class="sidebar-section">
+        <h3>Price Range</h3>
+        <div class="price-range">
+          <input type="range" id="priceRange" min="0" max="5000" value="5000" step="100" oninput="filterProducts()">
+          <div class="price-values">
+            <span>BDT 0</span>
+            <span id="priceLabel">BDT 5,000</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <h3>Availability</h3>
+        <div class="filter-group">
+          <label><input type="checkbox" value="in-stock" onchange="filterProducts()"> In Stock Only</label>
+        </div>
+      </div>
+
+      <button class="btn btn-secondary btn-sm" onclick="resetFilters()" style="width:100%;">Reset Filters</button>
+    </aside>
+
+    <div>
+      <div class="shop-header">
+        <span class="result-count" id="resultCount">Showing 0 products</span>
+        <select class="sort-select" id="sortSelect" onchange="filterProducts()">
+          <option value="default">Default</option>
+          <option value="price-asc">Price: Low to High</option>
+          <option value="price-desc">Price: High to Low</option>
+          <option value="name">Name: A-Z</option>
+        </select>
+      </div>
+      <div class="product-grid" id="productGrid">
+      </div>
+      <div class="pagination-wrap" id="paginationBar" style="display:none;">
+        <span class="page-info-text" id="pageInfoText"></span>
+        <div class="pagination" id="productPagination"></div>
+        <select class="per-page-select" id="shopPerPage" onchange="changePerPage(this.value)">
+          <option value="5">5</option>
+          <option value="10">10</option>
+          <option value="15">15</option>
+          <option value="20" selected>20</option>
+          <option value="50">50</option>
+          <option value="100">100</option>
+        </select>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="logo">
+            <div class="logo-icon">&#127851;</div>
+            <span data-dynamic="logo">ChocoDelight BD</span>
+          </a>
+          <p data-dynamic="footer">Bangladesh's premium chocolate brand, handcrafting joy since 2020.</p>
+          <div class="footer-social">
+            <a href="#" data-dynamic="footerSocial-facebook" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" data-dynamic="footerSocial-instagram" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="#" data-dynamic="footerSocial-youtube" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+            <a href="#" data-dynamic="footerSocial-whatsapp" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+          </div>
+        </div>
+        <div>
+          <h4>Quick Links</h4>
+          <ul class="footer-links" data-dynamic="footerQuickLinks">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="shop.html">Shop</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Categories</h4>
+          <ul class="footer-links" data-dynamic="footerCategoryLinks">
+            <li><a href="shop.html?category=Dark">Dark Chocolate</a></li>
+            <li><a href="shop.html?category=Milk">Milk Chocolate</a></li>
+            <li><a href="shop.html?category=Gift Hampers">Gift Hampers</a></li>
+            <li><a href="shop.html">All Products</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Contact Us</h4>
+          <ul class="footer-contact">
+            <li><i class="fas fa-map-marker-alt"></i> <span data-dynamic="footer-address">42 Gulshan Avenue, Dhaka 1212, Bangladesh</span></li>
+            <li><i class="fas fa-phone"></i> <span data-dynamic="footer-phone">+880 1712-345678</span></li>
+            <li><i class="fas fa-envelope"></i> <span data-dynamic="footer-email">hello@chocodelightbd.com</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span data-dynamic="copyright">&copy; 2026 ChocoDelight BD | Owned by <strong>Amina Begum</strong></span>
+        <span>Made with &#10084; in Bangladesh</span>
+      </div>
+    </div>
+  </footer>
+
+  <button class="back-to-top" id="backToTop" aria-label="Back to top">
+    <i class="fas fa-chevron-up"></i>
+  </button>
+
+  <div class="confirmation-overlay" id="wishlistOverlay">
+    <div class="confirmation-modal">
+      <div class="confirmation-icon" style="background: var(--accent);">&#10084;</div>
+      <h2>Your Wishlist</h2>
+      <div id="wishlistItems" style="margin: 20px 0;">
+        <p style="color: var(--gray);">Your wishlist is empty.</p>
+      </div>
+      <button class="btn btn-primary" onclick="closeWishlist()">Close</button>
+    </div>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/cart.js"></script>
+</body>
+</html>

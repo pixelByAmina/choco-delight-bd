@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ChocoDelight BD - Premium Chocolates in Bangladesh</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+  <!-- Header -->
+  <header class="header" id="header">
+    <div class="container">
+      <nav class="navbar">
+        <a href="index.html" class="logo">
+          <div class="logo-icon">&#127851;</div>
+          <span data-dynamic="logo">ChocoDelight BD</span>
+        </a>
+        <ul class="nav-links" id="navLinks" data-dynamic="menu">
+          <li><a href="index.html" class="active">Home</a></li>
+          <li><a href="shop.html">Shop</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+        <div class="nav-icons">
+          <a href="shop.html" class="nav-icon search-toggle" title="Search">
+            <i class="fas fa-search"></i>
+          </a>
+          <a href="#" class="nav-icon wishlist-toggle" title="Wishlist" onclick="event.preventDefault(); showWishlist()">
+            <i class="far fa-heart"></i>
+          </a>
+          <a href="checkout.html" class="nav-icon" title="Cart">
+            <i class="fas fa-shopping-bag"></i>
+            <span class="cart-count" id="cartCount">0</span>
+          </a>
+          <div class="hamburger" id="hamburger">
+            <span></span><span></span><span></span>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-content">
+        <div class="hero-text">
+          <h1 data-dynamic="heroTitle">Premium Chocolates,<br><span>Crafted with Love</span></h1>
+          <p data-dynamic="heroDesc">Sweet Moments Delivered Across Bangladesh. Experience the finest handcrafted chocolates made from premium ingredients, perfect for every occasion.</p>
+          <div class="hero-buttons">
+            <a href="shop.html" class="btn btn-primary">
+              <i class="fas fa-shopping-bag"></i> Shop Now
+            </a>
+            <a href="about.html" class="btn btn-outline" style="border-color: var(--accent); color: var(--accent);">
+              Learn More <i class="fas fa-arrow-right"></i>
+            </a>
+          </div>
+        </div>
+        <div class="hero-image">
+          <div class="hero-carousel" id="heroCarousel">
+            <div class="hero-carousel-track">
+              <img src="https://img.freepik.com/free-photo/delicious-chocolate-candies-with-crumbs-black-surface_181624-6462.jpg?w=600" alt="Premium Chocolates" class="hero-image-circle">
+              <img src="https://img.freepik.com/free-photo/chocolate-truffles-with-cocoa-powder-dark-background_23-2148553158.jpg?w=600" alt="Chocolate Truffles" class="hero-image-circle">
+              <img src="https://img.freepik.com/free-photo/assorted-chocolate-truffles-box_23-2148553155.jpg?w=600" alt="Assorted Chocolates" class="hero-image-circle">
+            </div>
+            <div class="hero-carousel-dots" id="heroDots">
+              <span class="dot active" data-slide="0"></span>
+              <span class="dot" data-slide="1"></span>
+              <span class="dot" data-slide="2"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Products -->
+  <section class="section featured-products">
+    <div class="container">
+      <h2 class="section-title fade-in" data-dynamic="featuredTitle">Our Best Sellers</h2>
+      <p class="section-subtitle fade-in" data-dynamic="featuredSubtitle">Handpicked premium chocolates loved by our customers</p>
+      <div class="product-grid stagger-children" id="featuredGrid">
+      </div>
+      <div style="text-align: center; margin-top: 40px;">
+        <a href="shop.html" class="btn btn-outline">View All Products <i class="fas fa-arrow-right"></i></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Categories -->
+  <section class="section categories">
+    <div class="container">
+      <h2 class="section-title fade-in" data-dynamic="categoriesTitle">Shop by Category</h2>
+      <p class="section-subtitle fade-in" data-dynamic="categoriesSubtitle">Explore our range of exquisite chocolate collections</p>
+      <div class="category-grid" data-dynamic="categories"></div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="section testimonials">
+    <div class="container">
+      <h2 class="section-title fade-in" data-dynamic="testimonialsTitle">What Our Customers Say</h2>
+      <p class="section-subtitle fade-in" data-dynamic="testimonialsSubtitle">Real reviews from chocolate lovers across Bangladesh</p>
+      <div class="testimonial-grid stagger-children">
+        <div class="testimonial-card">
+          <div class="testimonial-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+          <p class="testimonial-text">"Absolutely divine! The dark chocolate box was perfect for our anniversary. My wife loved it. Fast delivery in Dhaka!"</p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">R</div>
+            <div>
+              <div class="testimonial-name">Rafiq Hasan</div>
+              <div class="testimonial-location">Dhaka</div>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+          <p class="testimonial-text">"Best chocolates in Bangladesh! The gift hamper packaging was stunning. bKash payment was smooth. Highly recommend!"</p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">N</div>
+            <div>
+              <div class="testimonial-name">Nusrat Jahan</div>
+              <div class="testimonial-location">Chittagong</div>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i></div>
+          <p class="testimonial-text">"Ordered for my sister's birthday in Sylhet. The delivery was on time and the chocolates were fresh and delicious. Will order again!"</p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">F</div>
+            <div>
+              <div class="testimonial-name">Farzana Akter</div>
+              <div class="testimonial-location">Sylhet</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Special Offer Banner -->
+  <section class="section offer-banner">
+    <div class="container">
+      <div class="offer-content">
+        <span class="offer-tag" data-dynamic="offerTag">Limited Time Offer</span>
+        <h2 data-dynamic="offerTitle">Summer Sale: 25% OFF</h2>
+        <p data-dynamic="offerDesc">On all gift hampers and premium chocolate boxes. Use code <strong style="color: var(--accent);">CHOCO25</strong> at checkout. Valid until August 31, 2026.</p>
+        <a href="shop.html" class="btn btn-secondary btn-lg">
+          Shop the Sale <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Newsletter -->
+  <section class="section newsletter">
+    <div class="container">
+      <div class="newsletter-box fade-in">
+        <h2 data-dynamic="newsletterTitle">Sweet Updates</h2>
+        <p data-dynamic="newsletterDesc">Subscribe for exclusive offers, new arrivals, and chocolate tasting events in Bangladesh.</p>
+        <form class="newsletter-form" id="newsletterForm">
+          <input type="email" placeholder="Enter your email" required>
+          <button type="submit" class="btn btn-primary">Subscribe</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="logo">
+            <div class="logo-icon">&#127851;</div>
+            ChocoDelight BD
+          </a>
+          <p data-dynamic="footer">Bangladesh's premium chocolate brand, handcrafting joy since 2020. We deliver sweet moments across every district in Bangladesh.</p>
+          <div class="footer-social">
+            <a href="#" data-dynamic="footerSocial-facebook" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" data-dynamic="footerSocial-instagram" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="#" data-dynamic="footerSocial-youtube" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+            <a href="#" data-dynamic="footerSocial-whatsapp" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+          </div>
+        </div>
+        <div>
+          <h4>Quick Links</h4>
+          <ul class="footer-links" data-dynamic="footerQuickLinks">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="shop.html">Shop</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Categories</h4>
+          <ul class="footer-links" data-dynamic="footerCategoryLinks">
+            <li><a href="shop.html?category=Dark">Dark Chocolate</a></li>
+            <li><a href="shop.html?category=Milk">Milk Chocolate</a></li>
+            <li><a href="shop.html?category=Gift Hampers">Gift Hampers</a></li>
+            <li><a href="shop.html">All Products</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Contact Us</h4>
+          <ul class="footer-contact">
+            <li><i class="fas fa-map-marker-alt"></i> <span data-dynamic="footer-address">42 Gulshan Avenue, Dhaka 1212, Bangladesh</span></li>
+            <li><i class="fas fa-phone"></i> <span data-dynamic="footer-phone">+880 1712-345678</span></li>
+            <li><i class="fas fa-envelope"></i> <span data-dynamic="footer-email">hello@chocodelightbd.com</span></li>
+            <li><i class="fas fa-clock"></i> <span data-dynamic="footer-hours">Sat-Thu: 9AM - 9PM</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span data-dynamic="copyright">&copy; 2026 ChocoDelight BD. All rights reserved. | Owned by <strong>Amina Begum</strong></span>
+        <span>Made with &#10084; in Bangladesh</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Back to Top -->
+  <button class="back-to-top" id="backToTop" aria-label="Back to top">
+    <i class="fas fa-chevron-up"></i>
+  </button>
+
+  <!-- Wishlist Modal -->
+  <div class="confirmation-overlay" id="wishlistOverlay">
+    <div class="confirmation-modal">
+      <div class="confirmation-icon" style="background: var(--accent);">&#10084;</div>
+      <h2>Your Wishlist</h2>
+      <div id="wishlistItems" style="margin: 20px 0;">
+        <p style="color: var(--gray);">Your wishlist is empty.</p>
+      </div>
+      <button class="btn btn-primary" onclick="closeWishlist()">Continue Shopping</button>
+    </div>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/cart.js"></script>
+  <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var track = document.getElementById('heroCarousel');
+    if (!track) return;
+    var slides = track.querySelectorAll('.hero-image-circle');
+    var dots = track.querySelectorAll('.hero-carousel-dots .dot');
+    var current = 0;
+    var interval;
+
+    function goTo(index) {
+      slides.forEach(function(s, i) {
+        s.classList.toggle('active', i === index);
+      });
+      dots.forEach(function(d, i) {
+        d.classList.toggle('active', i === index);
+      });
+      current = index;
+    }
+
+    dots.forEach(function(dot) {
+      dot.addEventListener('click', function() {
+        clearInterval(interval);
+        goTo(parseInt(this.dataset.slide));
+        interval = setInterval(next, 2000);
+      });
+    });
+
+    function next() { goTo((current + 1) % slides.length); }
+
+    goTo(0);
+    interval = setInterval(next, 2000);
+  });
+  </script>
+</body>
+</html>

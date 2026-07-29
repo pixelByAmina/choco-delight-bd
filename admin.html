@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin - ChocoDelight BD</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/admin.css">
+  <style>
+    .page-group { margin-bottom: 30px; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+    .page-group h3 { margin: 0; padding: 14px 20px; background: var(--light-gray); cursor: pointer; font-size: 1rem; display: flex; align-items: center; gap: 10px; }
+    .page-group h3 i { transition: transform 0.3s; }
+    .page-group.collapsed .page-body { display: none; }
+    .page-group.collapsed h3 i { transform: rotate(-90deg); }
+    .page-body { padding: 20px; }
+    .page-body .form-group { margin-bottom: 14px; }
+    .page-body .form-group label { font-size: 0.82rem; }
+    .page-body .form-group input,
+    .page-body .form-group textarea { font-size: 0.85rem; }
+    .filter-bar { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; margin-bottom: 20px; }
+    .filter-bar input, .filter-bar select { padding: 8px 14px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-family: 'Poppins', sans-serif; font-size: 0.85rem; outline: none; background: var(--bg); }
+    .filter-bar input:focus, .filter-bar select:focus { border-color: var(--accent); }
+    .status-badge { display: inline-block; padding: 3px 12px; border-radius: 20px; font-size: 0.72rem; font-weight: 600; }
+    .status-pending { background: #FEF3C7; color: #92400E; }
+    .status-confirmed { background: #DBEAFE; color: #1E40AF; }
+    .status-processing { background: #F3E8FF; color: #6B21A8; }
+    .status-ontheway { background: #FFEDD5; color: #9A3412; }
+    .status-delivered { background: #D1FAE5; color: #065F46; }
+    .status-cancelled { background: #FEE2E2; color: #991B1B; }
+    .status-select { padding: 4px 8px; border-radius: 6px; border: 1px solid var(--border); font-size: 0.78rem; font-family: 'Poppins', sans-serif; outline: none; cursor: pointer; background: var(--bg); }
+    .order-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 2000; align-items: center; justify-content: center; backdrop-filter: blur(4px); }
+    .order-overlay.active { display: flex; }
+    .order-modal { background: var(--white); border-radius: var(--radius); max-width: 700px; width: 90%; max-height: 90vh; overflow-y: auto; box-shadow: var(--shadow-hover); }
+    .order-modal-header { display: flex; justify-content: space-between; align-items: center; padding: 20px 24px; border-bottom: 1px solid var(--border); }
+    .order-modal-header h2 { font-size: 1.2rem; }
+    .order-modal-close { width: 36px; height: 36px; border-radius: 50%; border: none; background: var(--light-gray); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; color: var(--gray); transition: var(--transition); }
+    .order-modal-close:hover { background: var(--danger); color: var(--white); }
+    .order-modal-body { padding: 24px; }
+    .order-info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+    .order-info-item label { font-size: 0.75rem; color: var(--gray); display: block; margin-bottom: 2px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .order-info-item p { font-size: 0.9rem; font-weight: 500; color: var(--text); }
+    .order-products-table { width: 100%; border-collapse: collapse; margin-bottom: 16px; }
+    .order-products-table th { background: var(--light-gray); padding: 10px 14px; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px; text-align: left; color: var(--primary); }
+    .order-products-table td { padding: 10px 14px; font-size: 0.85rem; border-bottom: 1px solid var(--border); }
+    .order-products-table tr:last-child td { border-bottom: none; }
+    .order-summary-box { background: var(--bg); border-radius: var(--radius-sm); padding: 16px; margin-top: 12px; }
+    .order-summary-box .row { display: flex; justify-content: space-between; padding: 4px 0; font-size: 0.85rem; }
+    .order-summary-box .row.total { font-weight: 700; font-size: 1rem; color: var(--primary); border-top: 1px solid var(--border); padding-top: 8px; margin-top: 4px; }
+    .page-refresh-btn { background: none; border: none; color: var(--primary); cursor: pointer; font-size: 0.85rem; display: flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 6px; transition: var(--transition); }
+    .page-refresh-btn:hover { background: var(--light); }
+    .top-right-bar { position: fixed; top: 20px; right: 20px; z-index: 200; display: flex; align-items: center; gap: 10px; }
+    .notif-btn { width: 44px; height: 44px; background: var(--white); border: 2px solid var(--border); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: var(--shadow); transition: var(--transition); color: var(--primary); font-size: 1.2rem; position: relative; }
+    .notif-btn:hover { border-color: var(--accent); box-shadow: var(--shadow-hover); transform: scale(1.05); }
+    .notif-badge { position: absolute; top: -6px; right: -6px; background: #EF4444; color: white; font-size: 0.65rem; font-weight: 700; min-width: 20px; height: 20px; border-radius: 10px; display: none; align-items: center; justify-content: center; padding: 0 5px; font-family: 'Poppins', sans-serif; box-shadow: 0 2px 6px rgba(239,68,68,0.4); }
+    .notif-badge.show { display: flex; }
+    .admin-profile { display: flex; align-items: center; gap: 8px; background: var(--white); border: 2px solid var(--border); border-radius: 12px; padding: 6px 14px 6px 12px; box-shadow: var(--shadow); font-size: 0.85rem; color: var(--primary); }
+    .admin-profile i.fa-user-circle { font-size: 1.2rem; color: var(--accent); }
+    .admin-profile span { font-weight: 600; }
+    .admin-profile a { color: var(--gray); text-decoration: none; font-size: 0.9rem; padding: 4px; border-radius: 6px; transition: 0.2s; display:flex; }
+    .admin-profile a:hover { color: var(--danger); background: #FEE2E2; }
+    .notif-dropdown { display: none; position: absolute; top: 52px; right: 0; background: var(--white); border: 1px solid var(--border); border-radius: 12px; box-shadow: 0 8px 30px rgba(0,0,0,0.12); min-width: 280px; max-width: 360px; z-index: 300; overflow: hidden; }
+    .notif-dropdown.open { display: block; }
+    .notif-dropdown-header { padding: 12px 16px; font-weight: 600; font-size: 0.85rem; border-bottom: 1px solid var(--border); color: var(--text); }
+    .notif-item { display: flex; align-items: flex-start; gap: 10px; padding: 10px 16px; border-bottom: 1px solid var(--border); font-size: 0.8rem; }
+    .notif-item:last-child { border-bottom: none; }
+    .notif-item-icon { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; flex-shrink: 0; }
+    .notif-item-icon.msg { background: #DBEAFE; color: #1E40AF; }
+    .notif-item-icon.sub { background: #D1FAE5; color: #065F46; }
+    .notif-item-icon.wish { background: #FEE2E2; color: #991B1B; }
+    .notif-item-body { flex: 1; min-width: 0; }
+    .notif-item-body .title { font-weight: 600; color: var(--text); }
+    .notif-item-body .desc { color: var(--gray); font-size: 0.75rem; margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .notif-item-body .time { color: var(--gray); font-size: 0.7rem; margin-top: 2px; }
+    .notif-dismiss-btn { cursor: pointer; color: var(--gray); font-size: 0.75rem; padding: 4px 8px; border-radius: 4px; transition: background 0.15s; flex-shrink: 0; }
+    .notif-dismiss-btn:hover { background: var(--light); color: var(--danger); }
+    .notif-dropdown-footer { padding: 10px 16px; text-align: center; font-size: 0.78rem; color: var(--accent); cursor: pointer; border-top: 1px solid var(--border); }
+    .notif-dropdown-footer:hover { background: var(--light); }
+    .notif-empty { padding: 30px 16px; text-align: center; color: var(--gray); font-size: 0.82rem; }
+    .row-read { opacity: 0.5; }
+    .btn-read { background: none; border: 1px solid var(--border); border-radius: 6px; cursor: pointer; color: var(--gray); padding: 4px 8px; font-size: 0.75rem; transition: var(--transition); }
+    .btn-read:hover { border-color: var(--success); color: var(--success); background: #D1FAE5; }
+    .btn-read.done { border-color: var(--success); color: var(--success); background: #D1FAE5; cursor: default; opacity: 0.6; }
+    .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 999; display: flex; align-items: center; justify-content: center; }
+    .overlay-card { background: var(--white); border-radius: var(--radius); padding: 28px; max-width: 500px; width: 90vw; box-shadow: 0 20px 60px rgba(0,0,0,0.2); }
+    .overlay-card h3 { margin-bottom: 16px; }
+    .alert-bar { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; }
+    .alert-item { display: flex; align-items: center; gap: 8px; padding: 8px 16px; border-radius: 8px; font-size: 0.82rem; font-weight: 500; cursor: pointer; transition: var(--transition); }
+    .alert-pending { background: #FEF3C7; border: 1px solid #F59E0B; color: #92400E; }
+    .alert-pending:hover { background: #FDE68A; }
+    .alert-oos { display: none; background: #FEE2E2; border: 1px solid #EF4444; color: #991B1B; }
+    .alert-oos.show { display: flex; }
+    .alert-oos:hover { background: #FECACA; }
+    .sidebar-order-count { margin-left: auto; font-size: 0.7rem; background: rgba(255,255,255,0.15); color: rgba(255,255,255,0.8); padding: 1px 8px; border-radius: 10px; }
+
+    /* ---- Login Overlay ---- */
+    .login-overlay { display: flex; position: fixed; inset: 0; background: linear-gradient(135deg, var(--primary) 0%, #3A1F14 100%); z-index: 9999; align-items: center; justify-content: center; }
+    .login-overlay.hidden { display: none; }
+    .login-card { background: var(--white); border-radius: 20px; padding: 40px 36px; width: 380px; max-width: 90vw; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+    .login-icon { font-size: 3rem; margin-bottom: 6px; }
+    .login-card h2 { font-size: 1.4rem; color: var(--primary); margin-bottom: 4px; }
+    .login-field { text-align: left; margin-bottom: 14px; }
+    .login-field label { display: flex; align-items: center; gap: 6px; font-size: 0.82rem; color: var(--gray); margin-bottom: 4px; }
+    .login-field input { width: 100%; padding: 12px 14px; border: 1px solid var(--border); border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: 0.9rem; outline: none; background: var(--bg); transition: border 0.2s; box-sizing:border-box; }
+    .login-field input:focus { border-color: var(--accent); }
+  </style>
+</head>
+<body>
+
+  <div class="toast" id="adminToast"></div>
+
+  <script>if(sessionStorage.getItem('adminLoggedIn')==='true'){document.write('<style>.login-overlay{display:none}<\/style>')}else{document.write('<style>.admin-layout{display:none}<\/style>')}</script>
+
+  <!-- Login Overlay -->
+  <div class="login-overlay" id="loginOverlay">
+    <div class="login-card">
+      <div class="login-icon">&#127851;</div>
+      <h2>Admin Login</h2>
+      <p style="color:var(--gray);font-size:0.85rem;margin-bottom:20px;">ChocoDelight BD Management Panel</p>
+      <form onsubmit="adminLogin(event)" style="width:100%;">
+        <div class="login-field">
+          <label><i class="fas fa-user"></i> Username</label>
+          <input type="text" id="loginUser" placeholder="amina" value="amina" required autocomplete="off">
+        </div>
+        <div class="login-field">
+          <label><i class="fas fa-lock"></i> Password</label>
+          <input type="password" id="loginPass" placeholder="amina123" value="amina123" required>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;padding:14px;margin-top:6px;border-radius:12px;"><i class="fas fa-sign-in-alt"></i> Sign In</button>
+      </form>
+      <p style="margin-top:16px;font-size:0.78rem;color:var(--gray);font-weight:600;">User Name: amina &nbsp;|&nbsp; Password: amina123</p>
+    </div>
+  </div>
+
+  <div class="admin-layout" id="adminLayout">
+    <aside class="sidebar">
+      <a href="index.html" class="sidebar-brand" style="text-decoration:none;display:flex;align-items:center;gap:10px;">
+        <div class="logo-icon">&#127851;</div>
+        <span>ChocoDelight BD</span>
+      </a>
+      <nav class="sidebar-nav">
+        <a href="#" class="active" data-section="dashboard"><i class="fas fa-chart-pie"></i> <span>Dashboard</span></a>
+        <a href="#" data-section="orders"><i class="fas fa-shopping-bag"></i> <span>Orders</span> <span class="sidebar-order-count" id="sidebarOrderCount"></span></a>
+        <a href="#" data-section="products"><i class="fas fa-box"></i> <span>Products</span></a>
+        <a href="#" data-section="categories"><i class="fas fa-tags"></i> <span>Categories</span></a>
+        <a href="#" data-section="wishlist"><i class="fas fa-heart"></i> <span>Wishlist</span> <span class="sidebar-order-count" id="sidebarWishlistCount"></span></a>
+        <a href="#" data-section="messages"><i class="fas fa-envelope"></i> <span>Messages</span> <span class="sidebar-order-count" id="sidebarMessageCount"></span></a>
+        <a href="#" data-section="subscribers"><i class="fas fa-users"></i> <span>Subscribers</span> <span class="sidebar-order-count" id="sidebarSubscriberCount"></span></a>
+        <a href="#" data-section="settings"><i class="fas fa-cog"></i> <span>Website Settings</span></a>
+        <hr style="border-color: rgba(255,255,255,0.1); margin: 10px 20px;">
+        <a href="index.html" target="_blank"><i class="fas fa-external-link-alt"></i> <span>View Site</span></a>
+      </nav>
+      <div class="sidebar-footer" style="text-align:center;opacity:0.4;font-size:0.7rem;">
+        &copy; <script>document.write(new Date().getFullYear())</script> ChocoDelight BD
+      </div>
+    </aside>
+
+    <main class="main-content">
+
+      <!-- Top Alert Bar -->
+      <div class="alert-bar">
+        <div class="alert-item alert-pending" id="orderAlert" onclick="switchSection('orders')">
+          <i class="fas fa-shopping-bag"></i>
+          <span id="orderAlertText">0 pending orders</span>
+        </div>
+        <div class="alert-item alert-oos" id="prodAlert" onclick="switchSection('products')">
+          <i class="fas fa-exclamation-triangle"></i>
+          <span id="prodAlertText">0 out-of-stock</span>
+        </div>
+      </div>
+
+      <!-- Top Right: Notifications + Admin Profile -->
+      <div class="top-right-bar">
+        <div class="notif-btn" id="notifBtn">
+          <i class="fas fa-bell"></i>
+          <span class="notif-badge" id="notifBadge">0</span>
+          <div class="notif-dropdown" id="notifDropdown">
+            <div class="notif-dropdown-header">Notifications</div>
+            <div id="notifList"></div>
+            <div class="notif-dropdown-footer" id="notifClearAll" style="display:none;" onclick="dismissAllNotifs()">Mark all as read</div>
+          </div>
+        </div>
+        <div class="admin-profile" id="adminProfile">
+          <i class="fas fa-user-circle"></i>
+          <span id="sidebarUserName">Amina</span>
+          <a href="#" onclick="adminLogout()" title="Logout"><i class="fas fa-sign-out-alt"></i></a>
+        </div>
+      </div>
+
+      <!-- ==================== DASHBOARD ==================== -->
+      <div class="section-content active" id="section-dashboard">
+        <div class="page-header"><h1>Dashboard</h1></div>
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon orders"><i class="fas fa-shopping-bag"></i></div>
+            <div class="stat-value" id="statTotalOrders">0</div>
+            <div class="stat-label">Total Orders</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon" style="background:#FEF3C7;color:#F59E0B;"><i class="fas fa-clock"></i></div>
+            <div class="stat-value" id="statPendingOrders">0</div>
+            <div class="stat-label">Pending Orders</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon" style="background:#D1FAE5;color:#10B981;"><i class="fas fa-check-circle"></i></div>
+            <div class="stat-value" id="statDeliveredOrders">0</div>
+            <div class="stat-label">Delivered</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon revenue"><i class="fas fa-coins"></i></div>
+            <div class="stat-value" id="statTotalRevenue">BDT 0</div>
+            <div class="stat-label">Total Revenue</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon products"><i class="fas fa-box"></i></div>
+            <div class="stat-value" id="statProducts">0</div>
+            <div class="stat-label">Total Products</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon categories"><i class="fas fa-tags"></i></div>
+            <div class="stat-value" id="statCategories">0</div>
+            <div class="stat-label">Categories</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header"><h2>Recent Orders</h2><a href="#" class="btn btn-primary btn-sm" onclick="switchSection('orders')">View All Orders</a></div>
+          <div class="card-body">
+            <div class="table-wrapper">
+              <table>
+                <thead><tr><th>Order ID</th><th>Customer</th><th>Total</th><th>Status</th><th>Date</th></tr></thead>
+                <tbody id="dashboardOrdersTable"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header"><h2>Recent Products</h2><a href="#" class="btn btn-primary btn-sm" onclick="switchSection('products')">Manage Products</a></div>
+          <div class="card-body">
+            <div class="table-wrapper">
+              <table>
+                <thead><tr><th>Image</th><th>Name</th><th>Price</th><th>Category</th></tr></thead>
+                <tbody id="dashboardProductsTable"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== ORDERS ==================== -->
+      <div class="section-content" id="section-orders">
+        <div class="page-header">
+          <h1>Orders</h1>
+        </div>
+
+        <div class="card">
+          <div class="card-body">
+            <div class="filter-bar">
+              <button class="btn btn-primary btn-sm" onclick="renderOrdersTable()" style="flex-shrink:0;"><i class="fas fa-sync-alt"></i> Refresh</button>
+              <input type="text" id="orderSearch" placeholder="Search by Order ID or Phone..." oninput="ordersPage=1;renderOrdersTable()">
+              <select id="orderStatusFilter" onchange="ordersPage=1;renderOrdersTable()">
+                <option value="">All Statuses</option>
+                <option value="Pending">Pending</option>
+                <option value="Confirmed">Confirmed</option>
+                <option value="Processing">Processing</option>
+                <option value="On the Way">On the Way</option>
+                <option value="Delivered">Delivered</option>
+                <option value="Cancelled">Cancelled</option>
+              </select>
+              <select id="orderDateFilter" onchange="ordersPage=1;renderOrdersTable()">
+                <option value="">All Dates</option>
+                <option value="today">Today</option>
+                <option value="week">This Week</option>
+                <option value="month">This Month</option>
+              </select>
+              <select id="adminPerPage" onchange="changeAdminPerPage(this.value)" style="font-size:0.85rem;padding:4px 8px;border:1px solid var(--border);border-radius:6px;background:var(--bg);color:var(--text);margin-left:auto;min-width:70px;">
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="15">15</option>
+                <option value="20" selected>20</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+              </select>
+              <span id="orderCount" style="font-size:0.85rem;color:var(--gray);margin-left:8px;">0 orders</span>
+            </div>
+            <div class="table-wrapper">
+              <table>
+                <thead>
+                  <tr><th>Order ID</th><th>Customer</th><th>Phone</th><th>Payment</th><th>TrxID</th><th>Total</th><th>Status</th><th>Date</th><th>Actions</th></tr>
+                </thead>
+                <tbody id="ordersTableBody"></tbody>
+              </table>
+            </div>
+            <div class="pagination" id="ordersPagination"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== PRODUCTS ==================== -->
+      <div class="section-content" id="section-products">
+        <div class="page-header"><h1>Products</h1><button class="btn btn-primary" onclick="showProductForm()"><i class="fas fa-plus"></i> Add Product</button></div>
+        <div id="productFormContainer" style="display:none;">
+          <div class="form-section-title" id="productFormTitle">Add New Product</div>
+          <form id="productForm" onsubmit="saveProduct(event)">
+            <input type="hidden" id="productId" value="">
+            <div class="form-grid">
+              <div class="form-group">
+                <label>Product Name</label>
+                <input type="text" id="productName" placeholder="e.g. Royal Dark Chocolate Box" required>
+              </div>
+              <div class="form-group">
+                <label>Price (BDT)</label>
+                <input type="number" id="productPrice" placeholder="e.g. 850" min="1" required>
+              </div>
+              <div class="form-group">
+                <label>Stock Quantity</label>
+                <input type="number" id="productStock" placeholder="e.g. 50" min="0" value="0">
+              </div>
+              <div class="form-group">
+                <label>Category</label>
+                <select id="productCategory" required>
+                  <option value="">Select Category</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Image URL</label>
+                <input type="url" id="productImage" placeholder="https://example.com/chocolate.jpg">
+              </div>
+              <div class="form-group">
+                <label>Description</label>
+                <textarea id="productDescription" placeholder="Describe the product..." required></textarea>
+              </div>
+              <div class="form-group" style="grid-column:1/-1;">
+                <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+                  <input type="checkbox" id="productInStock" checked style="width:18px;height:18px;accent-color:var(--accent);">
+                  <span>In Stock</span>
+                </label>
+              </div>
+            </div>
+
+            <div style="margin-top:16px;border-top:1px solid var(--border);padding-top:16px;">
+              <div style="font-weight:600;font-size:0.9rem;margin-bottom:12px;color:var(--text);">SEO &amp; Dimensions</div>
+              <div class="form-grid">
+                <div class="form-group">
+                  <label>Meta Title</label>
+                  <input type="text" id="productMetaTitle" placeholder="e.g. Buy Premium Dark Chocolate Online">
+                </div>
+                <div class="form-group" style="grid-column:1/-1;">
+                  <label>Meta Description</label>
+                  <textarea id="productMetaDesc" placeholder="Short SEO description for search engines..." rows="2"></textarea>
+                </div>
+                <div class="form-group" style="grid-column:1/-1;">
+                  <label>Meta Keywords</label>
+                  <input type="text" id="productMetaKeywords" placeholder="chocolate, dark chocolate, premium gift, Bangladesh">
+                </div>
+                <div class="form-group">
+                  <label>Height (cm)</label>
+                  <input type="number" id="productHeight" placeholder="e.g. 10" min="0" step="0.1">
+                </div>
+                <div class="form-group">
+                  <label>Width (cm)</label>
+                  <input type="number" id="productWidth" placeholder="e.g. 15" min="0" step="0.1">
+                </div>
+                <div class="form-group">
+                  <label>Weight (g)</label>
+                  <input type="number" id="productWeight" placeholder="e.g. 250" min="0" step="1">
+                </div>
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary" id="productFormSubmit"><i class="fas fa-save"></i> <span>Save Product</span></button>
+              <button type="button" class="btn btn-outline" onclick="cancelProductForm()">Cancel</button>
+            </div>
+          </form>
+        </div>
+        <div class="card">
+          <div class="card-header"><h2>All Products</h2>
+            <select id="adminProductsPerPage" onchange="changeAdminProductsPerPage(this.value)" style="font-size:0.85rem;padding:4px 8px;border:1px solid var(--border);border-radius:6px;background:var(--bg);color:var(--text);min-width:70px;">
+              <option value="5">5</option>
+              <option value="10">10</option>
+              <option value="15">15</option>
+              <option value="20" selected>20</option>
+              <option value="50">50</option>
+              <option value="100">100</option>
+            </select>
+            <span style="font-size:0.85rem;color:var(--gray);" id="productCount">0 products</span></div>
+          <div class="card-body">
+            <div class="table-wrapper">
+              <table>
+                <thead><tr><th>Image</th><th>Name</th><th>Price</th><th>Category</th><th>Stock</th><th>Status</th><th>Actions</th></tr></thead>
+                <tbody id="productsTableBody"></tbody>
+              </table>
+            </div>
+            <div class="pagination" id="productsPagination"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== CATEGORIES ==================== -->
+      <div class="section-content" id="section-categories">
+        <div class="page-header">
+          <h1>Categories</h1>
+          <button class="btn btn-primary" onclick="showAddCategoryForm()"><i class="fas fa-plus"></i> Add Category</button>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <h2>All Categories</h2>
+          </div>
+          <div class="card-body">
+            <table>
+              <thead><tr><th>Category Name</th><th>Products</th><th>Actions</th></tr></thead>
+              <tbody id="categoriesTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+        <div id="categoryFormOverlay" class="overlay" style="display:none;" onclick="if(event.target===this)hideCategoryForm()">
+          <div class="overlay-card" style="max-width:480px;">
+            <h3 id="categoryFormTitle">Add Category</h3>
+            <div class="form-group"><label>Category Value (used in products)</label><input type="text" id="categoryValue" placeholder="e.g. Dark"></div>
+            <div class="form-group"><label>Display Label</label><input type="text" id="categoryLabel" placeholder="e.g. Dark Chocolate"></div>
+            <div style="display:flex;gap:10px;margin-top:16px;">
+              <button class="btn btn-primary" onclick="saveCategoryForm()"><i class="fas fa-save"></i> Save</button>
+              <button class="btn btn-secondary" onclick="hideCategoryForm()">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== SETTINGS ==================== -->
+      <div class="section-content" id="section-settings">
+        <div class="page-header">
+          <h1>Website Settings</h1>
+          <button class="btn btn-primary" onclick="saveSettingsForm()"><i class="fas fa-save"></i> Save Logo &amp; Navigation</button>
+        </div>
+        <div class="settings-grid" style="grid-template-columns:1fr;">
+          <div class="settings-card">
+            <h3><i class="fas fa-font"></i> Logo & Navigation</h3>
+            <div class="form-group">
+              <label>Website Logo Text</label>
+              <input type="text" id="settingLogo" placeholder="ChocoDelight BD">
+            </div>
+            <div class="form-group">
+              <label>Menu Names (comma separated)</label>
+              <input type="text" id="settingMenu" placeholder="Home, Shop, About, Contact">
+            </div>
+            <div class="form-group">
+              <label>Footer Contact Info</label>
+              <textarea id="settingFooter" placeholder="42 Gulshan Avenue, Dhaka 1212" style="min-height:60px;"></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="page-group collapsed" style="margin-top: 24px;">
+          <h3 onclick="this.parentElement.classList.toggle('collapsed')"><i class="fas fa-chevron-down"></i> Home Page</h3>
+          <div class="page-body" style="padding-top: 30px;">
+            <div class="form-group"><label>Hero Title (HTML allowed)</label><textarea id="heroTitle" style="min-height:50px;"></textarea></div>
+            <div class="form-group"><label>Hero Description</label><textarea id="heroDesc" style="min-height:60px;"></textarea></div>
+            <div class="form-group"><label>Featured Section Title</label><input type="text" id="featuredTitle"></div>
+            <div class="form-group"><label>Featured Section Subtitle</label><input type="text" id="featuredSubtitle"></div>
+            <div class="form-group"><label>Categories Section Title</label><input type="text" id="categoriesTitle"></div>
+            <div class="form-group"><label>Categories Section Subtitle</label><input type="text" id="categoriesSubtitle"></div>
+            <div class="form-group"><label>Testimonials Section Title</label><input type="text" id="testimonialsTitle"></div>
+            <div class="form-group"><label>Testimonials Section Subtitle</label><input type="text" id="testimonialsSubtitle"></div>
+            <div class="form-group"><label>Offer Tag</label><input type="text" id="offerTag"></div>
+            <div class="form-group"><label>Offer Title</label><input type="text" id="offerTitle"></div>
+            <div class="form-group"><label>Offer Description (HTML allowed)</label><textarea id="offerDesc" style="min-height:50px;"></textarea></div>
+            <div class="form-group"><label>Newsletter Title</label><input type="text" id="newsletterTitle"></div>
+            <div class="form-group"><label>Newsletter Description</label><textarea id="newsletterDesc" style="min-height:50px;"></textarea></div>
+            <button class="btn btn-primary" style="margin-top:16px;" onclick="saveSectionSettings('home')"><i class="fas fa-save"></i> Save Home Page</button>
+          </div>
+        </div>
+        <div class="page-group collapsed">
+          <h3 onclick="this.parentElement.classList.toggle('collapsed')"><i class="fas fa-chevron-down"></i> Shop Page</h3>
+          <div class="page-body">
+            <div class="form-group"><label>Page Title</label><input type="text" id="shopTitle"></div>
+            <div class="form-group"><label>Page Description</label><textarea id="shopDesc" style="min-height:50px;"></textarea></div>
+            <button class="btn btn-primary" style="margin-top:16px;" onclick="saveSectionSettings('shop')"><i class="fas fa-save"></i> Save Shop Page</button>
+          </div>
+        </div>
+        <div class="page-group collapsed">
+          <h3 onclick="this.parentElement.classList.toggle('collapsed')"><i class="fas fa-chevron-down"></i> About Page</h3>
+          <div class="page-body">
+            <div class="form-group"><label>Page Title</label><input type="text" id="aboutTitle"></div>
+            <div class="form-group"><label>Page Description</label><textarea id="aboutDesc" style="min-height:50px;"></textarea></div>
+            <div class="form-group"><label>Section Title</label><input type="text" id="aboutSectionTitle"></div>
+            <div class="form-group"><label>Paragraph 1 (HTML allowed)</label><textarea id="aboutPara1" style="min-height:60px;"></textarea></div>
+            <div class="form-group"><label>Paragraph 2 (HTML allowed)</label><textarea id="aboutPara2" style="min-height:60px;"></textarea></div>
+            <div class="form-group"><label>Paragraph 3 (HTML allowed)</label><textarea id="aboutPara3" style="min-height:60px;"></textarea></div>
+            <div class="form-group"><label>"Why Choose" Title</label><input type="text" id="aboutWhyTitle"></div>
+            <div class="form-group"><label>"Why Choose" Subtitle</label><textarea id="aboutWhySubtitle" style="min-height:40px;"></textarea></div>
+            <button class="btn btn-primary" style="margin-top:16px;" onclick="saveSectionSettings('about')"><i class="fas fa-save"></i> Save About Page</button>
+          </div>
+        </div>
+        <div class="page-group collapsed">
+          <h3 onclick="this.parentElement.classList.toggle('collapsed')"><i class="fas fa-chevron-down"></i> Contact Page</h3>
+          <div class="page-body">
+            <div class="form-group"><label>Page Title</label><input type="text" id="contactTitle"></div>
+            <div class="form-group"><label>Page Description</label><textarea id="contactDesc" style="min-height:50px;"></textarea></div>
+            <div class="form-group"><label>Form Title</label><input type="text" id="contactFormTitle"></div>
+            <div class="form-group"><label>Location Label</label><input type="text" id="contactLocationLabel"></div>
+            <div class="form-group"><label>Location Value (HTML allowed)</label><textarea id="contactLocationValue" style="min-height:40px;"></textarea></div>
+            <div class="form-group"><label>Phone Label</label><input type="text" id="contactPhoneLabel"></div>
+            <div class="form-group"><label>Phone Value (HTML allowed)</label><textarea id="contactPhoneValue" style="min-height:40px;"></textarea></div>
+            <div class="form-group"><label>Email Label</label><input type="text" id="contactEmailLabel"></div>
+            <div class="form-group"><label>Email Value (HTML allowed)</label><textarea id="contactEmailValue" style="min-height:40px;"></textarea></div>
+            <div class="form-group"><label>Hours Label</label><input type="text" id="contactHoursLabel"></div>
+            <div class="form-group"><label>Hours Value (HTML allowed)</label><textarea id="contactHoursValue" style="min-height:40px;"></textarea></div>
+            <button class="btn btn-primary" style="margin-top:16px;" onclick="saveSectionSettings('contact')"><i class="fas fa-save"></i> Save Contact Page</button>
+          </div>
+        </div>
+        <div class="page-group collapsed">
+          <h3 onclick="this.parentElement.classList.toggle('collapsed')"><i class="fas fa-chevron-down"></i> Footer Settings</h3>
+          <div class="page-body">
+            <div class="settings-grid" style="grid-template-columns:1fr 1fr;">
+              <div class="settings-card">
+                <h3 style="font-size:0.9rem;"><i class="fas fa-link"></i> Quick Links</h3>
+                <div class="form-group"><label>Link Labels (comma separated)</label><input type="text" id="footerQuickLinks" placeholder="Home, Shop, About Us, Contact"></div>
+              </div>
+              <div class="settings-card">
+                <h3 style="font-size:0.9rem;"><i class="fas fa-th-list"></i> Category Links</h3>
+                <div class="form-group"><label>Link Labels (comma separated)</label><input type="text" id="footerCategoryLinks" placeholder="Dark Chocolate, Milk Chocolate, Gift Hampers, All Products"></div>
+              </div>
+            </div>
+            <div class="settings-grid" style="grid-template-columns:1fr 1fr;margin-top:16px;">
+              <div class="settings-card">
+                <h3 style="font-size:0.9rem;"><i class="fas fa-address-card"></i> Contact Details</h3>
+                <div class="form-group"><label>Address</label><input type="text" id="footerAddress" placeholder="42 Gulshan Avenue, Dhaka 1212"></div>
+                <div class="form-group"><label>Phone</label><input type="text" id="footerPhone" placeholder="+880 1712-345678"></div>
+                <div class="form-group"><label>Email</label><input type="text" id="footerEmail" placeholder="hello@chocodelightbd.com"></div>
+                <div class="form-group"><label>Hours</label><input type="text" id="footerHours" placeholder="Sat-Thu: 9AM - 9PM"></div>
+              </div>
+              <div class="settings-card">
+                <h3 style="font-size:0.9rem;"><i class="fas fa-share-alt"></i> Social Media Links</h3>
+                <div class="form-group"><label>Facebook URL</label><input type="url" id="footerFacebook" placeholder="https://facebook.com/..."></div>
+                <div class="form-group"><label>Instagram URL</label><input type="url" id="footerInstagram" placeholder="https://instagram.com/..."></div>
+                <div class="form-group"><label>YouTube URL</label><input type="url" id="footerYoutube" placeholder="https://youtube.com/..."></div>
+                <div class="form-group"><label>WhatsApp URL</label><input type="url" id="footerWhatsapp" placeholder="https://wa.me/..."></div>
+              </div>
+            </div>
+            <button class="btn btn-primary" style="margin-top:16px;" onclick="saveSectionSettings('footer')"><i class="fas fa-save"></i> Save Footer Settings</button>
+          </div>
+        </div>
+        <div style="margin-top:20px; text-align:right;">
+          <button class="btn btn-primary" onclick="saveSettingsForm()"><i class="fas fa-save"></i> Save Logo &amp; Navigation</button>
+        </div>
+      </div>
+
+      <!-- ==================== WISHLIST ==================== -->
+      <div class="section-content" id="section-wishlist">
+        <div class="page-header"><h1>Wishlist</h1><span style="font-size:0.85rem;color:var(--gray);" id="wishlistCount">0 products</span></div>
+        <div class="card">
+          <div class="card-header">
+            <h2>Wishlist Products</h2>
+            <select id="wishlistPerPage" onchange="changeWishlistPerPage(this.value)" style="font-size:0.85rem;padding:4px 8px;border:1px solid var(--border);border-radius:6px;background:var(--bg);color:var(--text);min-width:70px;">
+              <option value="5">5</option>
+              <option value="10">10</option>
+              <option value="15">15</option>
+              <option value="20" selected>20</option>
+              <option value="50">50</option>
+              <option value="100">100</option>
+            </select>
+          </div>
+          <div class="card-body">
+            <div class="table-wrapper">
+              <table>
+                <thead><tr><th>Image</th><th>Product</th><th>Price</th><th>Category</th><th>Status</th><th>Read</th></tr></thead>
+                <tbody id="wishlistTableBody"></tbody>
+              </table>
+            </div>
+            <div class="pagination" id="wishlistPagination"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== MESSAGES ==================== -->
+      <div class="section-content" id="section-messages">
+        <div class="page-header"><h1>Messages</h1>
+          <button class="btn btn-danger btn-sm" onclick="deleteAllMessages()" style="margin-left:auto;"><i class="fas fa-trash"></i> Delete All</button>
+          <span style="font-size:0.85rem;color:var(--gray);margin-left:12px;" id="messagesCount">0 messages</span>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <h2>All Messages</h2>
+            <select id="msgsPerPage" onchange="changeMsgsPerPage(this.value)" style="font-size:0.85rem;padding:4px 8px;border:1px solid var(--border);border-radius:6px;background:var(--bg);color:var(--text);min-width:70px;">
+              <option value="5">5</option>
+              <option value="10">10</option>
+              <option value="15">15</option>
+              <option value="20" selected>20</option>
+              <option value="50">50</option>
+              <option value="100">100</option>
+            </select>
+          </div>
+          <div class="card-body">
+            <div class="table-wrapper">
+              <table>
+                <thead><tr><th>Date</th><th>Name</th><th>Email</th><th>Subject</th><th>Message</th><th>Read</th><th>Action</th></tr></thead>
+                <tbody id="messagesTableBody"></tbody>
+              </table>
+            </div>
+            <div class="pagination" id="messagesPagination"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== SUBSCRIBERS ==================== -->
+      <div class="section-content" id="section-subscribers">
+        <div class="page-header"><h1>Subscribers</h1>
+          <button class="btn btn-danger btn-sm" onclick="deleteAllSubscribers()" style="margin-left:auto;"><i class="fas fa-trash"></i> Delete All</button>
+          <span style="font-size:0.85rem;color:var(--gray);margin-left:12px;" id="subscriberCount">0 subscribers</span>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <h2>All Subscribers</h2>
+            <select id="subsPerPage" onchange="changeSubsPerPage(this.value)" style="font-size:0.85rem;padding:4px 8px;border:1px solid var(--border);border-radius:6px;background:var(--bg);color:var(--text);min-width:70px;">
+              <option value="5">5</option>
+              <option value="10">10</option>
+              <option value="15">15</option>
+              <option value="20" selected>20</option>
+              <option value="50">50</option>
+              <option value="100">100</option>
+            </select>
+          </div>
+          <div class="card-body">
+            <div class="table-wrapper">
+              <table>
+                <thead><tr><th>#</th><th>Email</th><th>Subscribed On</th><th>Read</th><th>Action</th></tr></thead>
+                <tbody id="subscriberTableBody"></tbody>
+              </table>
+            </div>
+            <div class="pagination" id="subscriberPagination"></div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- Message Detail Modal -->
+  <div class="order-overlay" id="messageDetailOverlay" onclick="if(event.target===this)closeMessageDetail()">
+    <div class="order-modal" style="max-width:560px;">
+      <div class="order-modal-header">
+        <h2>Message Details</h2>
+        <button class="order-modal-close" onclick="closeMessageDetail()"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="order-modal-body" id="messageDetailBody"></div>
+    </div>
+  </div>
+
+  <!-- Order Detail Modal -->
+  <div class="order-overlay" id="orderDetailOverlay" onclick="if(event.target===this)closeOrderDetail()">
+    <div class="order-modal">
+      <div class="order-modal-header">
+        <h2>Order <span id="detailOrderId"></span></h2>
+        <button class="order-modal-close" onclick="closeOrderDetail()"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="order-modal-body" id="orderDetailBody"></div>
+    </div>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>

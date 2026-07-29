@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact - ChocoDelight BD</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <div class="toast" id="toast"></div>
+
+  <header class="header" id="header">
+    <div class="container">
+      <nav class="navbar">
+        <a href="index.html" class="logo">
+          <div class="logo-icon">&#127851;</div>
+          <span data-dynamic="logo">ChocoDelight BD</span>
+        </a>
+        <ul class="nav-links" id="navLinks" data-dynamic="menu">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="shop.html">Shop</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="contact.html" class="active">Contact</a></li>
+        </ul>
+        <div class="nav-icons">
+          <a href="#" class="nav-icon" onclick="event.preventDefault(); showWishlist()">
+            <i class="far fa-heart"></i>
+          </a>
+          <a href="checkout.html" class="nav-icon">
+            <i class="fas fa-shopping-bag"></i>
+            <span class="cart-count" id="cartCount">0</span>
+          </a>
+          <div class="hamburger" id="hamburger">
+            <span></span><span></span><span></span>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <section class="page-header">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="index.html">Home</a> <span>/</span> <span>Contact</span>
+      </div>
+      <h1 data-dynamic="contactTitle">Get in Touch</h1>
+      <p data-dynamic="contactDesc">We'd love to hear from you</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="contact-grid">
+        <div class="contact-info fade-in-left">
+          <div class="contact-card">
+            <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
+            <div class="contact-detail">
+              <h4 data-dynamic="contactLocationLabel">Our Location</h4>
+              <p data-dynamic="contactLocationValue">42 Gulshan Avenue, Dhaka 1212, Bangladesh</p>
+            </div>
+          </div>
+          <div class="contact-card">
+            <div class="contact-icon"><i class="fas fa-phone-alt"></i></div>
+            <div class="contact-detail">
+              <h4 data-dynamic="contactPhoneLabel">Phone</h4>
+              <p data-dynamic="contactPhoneValue">+880 1712-345678<br>+880 1987-654321</p>
+            </div>
+          </div>
+          <div class="contact-card">
+            <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+            <div class="contact-detail">
+              <h4 data-dynamic="contactEmailLabel">Email</h4>
+              <p data-dynamic="contactEmailValue">hello@chocodelightbd.com<br>orders@chocodelightbd.com</p>
+            </div>
+          </div>
+          <div class="contact-card">
+            <div class="contact-icon"><i class="fas fa-clock"></i></div>
+            <div class="contact-detail">
+              <h4 data-dynamic="contactHoursLabel">Business Hours</h4>
+              <p data-dynamic="contactHoursValue">Saturday - Thursday: 9:00 AM - 9:00 PM<br>Friday: Closed</p>
+            </div>
+          </div>
+          <div style="display:flex; gap:10px; margin-top:10px;">
+            <a href="#" class="btn btn-secondary btn-sm" style="flex:1;"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+            <a href="#" class="btn btn-primary btn-sm" style="flex:1;"><i class="fab fa-facebook-messenger"></i> Messenger</a>
+          </div>
+        </div>
+        <div class="contact-form fade-in-right">
+          <h3 data-dynamic="contactFormTitle">Send Us a Message</h3>
+          <form id="contactForm">
+            <div class="form-row">
+              <div class="form-group">
+                <label>Your Name</label>
+                <input type="text" id="contactName" placeholder="Amina Begum" required>
+              </div>
+              <div class="form-group">
+                <label>Your Email</label>
+                <input type="email" id="contactEmail" placeholder="amina@example.com" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Subject</label>
+              <input type="text" id="contactSubject" placeholder="How can we help you?">
+            </div>
+            <div class="form-group">
+              <label>Message</label>
+              <textarea id="contactMessage" placeholder="Tell us about your enquiry..." required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary" style="width:100%;">
+              <i class="fas fa-paper-plane"></i> Send Message
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="logo">
+            <div class="logo-icon">&#127851;</div>
+            <span data-dynamic="logo">ChocoDelight BD</span>
+          </a>
+          <p data-dynamic="footer">Bangladesh's premium chocolate brand, handcrafting joy since 2020.</p>
+          <div class="footer-social">
+            <a href="#" data-dynamic="footerSocial-facebook" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" data-dynamic="footerSocial-instagram" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="#" data-dynamic="footerSocial-youtube" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+            <a href="#" data-dynamic="footerSocial-whatsapp" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+          </div>
+        </div>
+        <div>
+          <h4>Quick Links</h4>
+          <ul class="footer-links" data-dynamic="footerQuickLinks">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="shop.html">Shop</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Categories</h4>
+          <ul class="footer-links" data-dynamic="footerCategoryLinks">
+            <li><a href="shop.html?category=Dark">Dark Chocolate</a></li>
+            <li><a href="shop.html?category=Milk">Milk Chocolate</a></li>
+            <li><a href="shop.html?category=Gift Hampers">Gift Hampers</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Contact Us</h4>
+          <ul class="footer-contact">
+            <li><i class="fas fa-map-marker-alt"></i> <span data-dynamic="footer-address">42 Gulshan Avenue, Dhaka 1212, Bangladesh</span></li>
+            <li><i class="fas fa-phone"></i> <span data-dynamic="footer-phone">+880 1712-345678</span></li>
+            <li><i class="fas fa-envelope"></i> <span data-dynamic="footer-email">hello@chocodelightbd.com</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span data-dynamic="copyright">&copy; 2026 ChocoDelight BD | Owned by <strong>Amina Begum</strong></span>
+        <span>Made with &#10084; in Bangladesh</span>
+      </div>
+    </div>
+  </footer>
+
+  <button class="back-to-top" id="backToTop" aria-label="Back to top">
+    <i class="fas fa-chevron-up"></i>
+  </button>
+
+  <div class="confirmation-overlay" id="wishlistOverlay">
+    <div class="confirmation-modal">
+      <div class="confirmation-icon" style="background: var(--accent);">&#10084;</div>
+      <h2>Your Wishlist</h2>
+      <div id="wishlistItems" style="margin: 20px 0;"><p style="color: var(--gray);">Your wishlist is empty.</p></div>
+      <button class="btn btn-primary" onclick="closeWishlist()">Close</button>
+    </div>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/cart.js"></script>
+</body>
+</html>
