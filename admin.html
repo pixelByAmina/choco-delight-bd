@@ -145,6 +145,7 @@
         <a href="#" data-section="wishlist"><i class="fas fa-heart"></i> <span>Wishlist</span> <span class="sidebar-order-count" id="sidebarWishlistCount"></span></a>
         <a href="#" data-section="messages"><i class="fas fa-envelope"></i> <span>Messages</span> <span class="sidebar-order-count" id="sidebarMessageCount"></span></a>
         <a href="#" data-section="subscribers"><i class="fas fa-users"></i> <span>Subscribers</span> <span class="sidebar-order-count" id="sidebarSubscriberCount"></span></a>
+        <a href="#" data-section="notifications"><i class="fas fa-bell"></i> <span>Notifications</span> <span class="sidebar-order-count" id="sidebarNotifCount"></span></a>
         <a href="#" data-section="settings"><i class="fas fa-cog"></i> <span>Website Settings</span></a>
         <hr style="border-color: rgba(255,255,255,0.1); margin: 10px 20px;">
         <a href="index.html" target="_blank"><i class="fas fa-external-link-alt"></i> <span>View Site</span></a>
@@ -626,6 +627,28 @@
               </table>
             </div>
             <div class="pagination" id="subscriberPagination"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== NOTIFICATIONS ==================== -->
+      <div class="section-content" id="section-notifications">
+        <div class="page-header">
+          <h1>Notifications</h1>
+          <button class="btn btn-primary" onclick="dismissAllNotifs()"><i class="fas fa-check-double"></i> Mark All as Read</button>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <h2>All Notifications</h2>
+          </div>
+          <div class="card-body">
+            <div class="table-wrapper">
+              <table>
+                <thead><tr><th>Type</th><th>Title</th><th>Description</th><th>Date</th><th>Action</th></tr></thead>
+                <tbody id="notificationsTableBody"></tbody>
+              </table>
+            </div>
+            <div class="pagination" id="notifPagination"></div>
           </div>
         </div>
       </div>

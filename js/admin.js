@@ -72,6 +72,7 @@ function switchSection(section) {
   if (section === 'messages') { renderAdminMessages(); dismissTypeNotifs('message'); }
   if (section === 'subscribers') { renderAdminSubscribers(); dismissTypeNotifs('subscriber'); }
   if (section === 'categories') renderCategoriesTable();
+  if (section === 'notifications') renderNotificationsTable();
 }
 
 document.querySelectorAll('.sidebar-nav a[data-section]').forEach(link => {
@@ -970,6 +971,7 @@ function dismissAllNotifs() {
   renderNotifDropdown();
   updateNotifBell();
   document.getElementById('notifDropdown').classList.remove('open');
+  renderNotificationsTable();
 }
 
 function toggleNotifDropdown() {
@@ -1021,6 +1023,38 @@ function updateNotifBell() {
   const badge = document.getElementById('notifBadge');
   if (n.length > 0) { badge.textContent = n.length; badge.classList.add('show'); }
   else { badge.classList.remove('show'); }
+  const sb = document.getElementById('sidebarNotifCount');
+  if (sb) sb.textContent = n.length > 0 ? n.length : '';
+}
+
+function renderNotificationsTable() {
+  const notifs = getNotifs();
+  const total = notifs.length;
+  const perPage = 10;
+  let page = 1;
+  const render = (p) => {
+    const start = (p - 1) * perPage;
+    const pageItems = notifs.slice(start, start + perPage);
+    const tbody = document.getElementById('notificationsTableBody');
+    if (!tbody) return;
+    if (pageItems.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--gray);padding:40px;">No notifications</td></tr>';
+      return;
+    }
+    const iconMap = { message: ['fa-envelope', '#1E40AF', '#DBEAFE'], subscriber: ['fa-user-plus', '#065F46', '#D1FAE5'], wishlist: ['fa-heart', '#991B1B', '#FEE2E2'] };
+    tbody.innerHTML = pageItems.map(x => {
+      const [icon, color, bg] = iconMap[x.type] || ['fa-bell', '#92400E', '#FEF3C7'];
+      return `<tr>
+        <td><span style="display:inline-flex;align-items:center;gap:6px;"><span style="width:28px;height:28px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:0.75rem;background:${bg};color:${color};"><i class="fas ${icon}"></i></span> ${x.type}</span></td>
+        <td>${escHtml(x.title)}</td>
+        <td>${escHtml(x.desc)}</td>
+        <td>${timeAgo(x.date)}</td>
+        <td><button class="btn btn-sm" onclick="dismissNotif('${x.id}');renderNotificationsTable();" title="Mark as read"><i class="fas fa-check"></i></button></td>
+      </tr>`;
+    }).join('');
+    adminPagination('notifPagination', p, Math.ceil(total / perPage), np => { page = np; render(np); });
+  };
+  render(1);
 }
 
 function refreshAll() {

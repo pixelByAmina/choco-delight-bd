@@ -33,7 +33,7 @@
 | **Wishlist Viewer** | View all wishlisted products per user |
 | **Messages** | View contact form submissions, mark as read |
 | **Subscribers** | View newsletter subscribers, mark as read |
-| **Notifications** | Bell icon dropdown showing unread wishlist/message/subscriber notifications |
+| **Notifications** | Dedicated admin section + bell dropdown showing all activity |
 | **Website Settings** | Editable content for all pages: hero, featured, testimonials, newsletter, about, contact, footer |
 
 ### ⚙️ Website Settings
@@ -156,9 +156,3 @@ No build tools, no installation, no server — just open any HTML file in a brow
 ## 👩‍💼 Owner
 
 **Amina Begum** — Founder of ChocoDelight BD
-
----
-
-## 📄 License
-
-MIT — Free to use and modify.
