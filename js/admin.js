@@ -1005,6 +1005,7 @@ function dismissNotif(id) {
   saveNotifs(n);
   renderNotifDropdown();
   updateNotifBell();
+  renderNotificationsTable();
 }
 
 function dismissTypeNotifs(type) {
