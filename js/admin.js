@@ -42,7 +42,7 @@ function adminLogin(e) {
 
 function adminLogout() {
   sessionStorage.removeItem('adminLoggedIn');
-  document.getElementById('loginOverlay').classList.remove('hidden');
+  document.getElementById('loginOverlay').style.display = 'flex';
   document.getElementById('adminLayout').style.display = 'none';
   document.getElementById('loginPass').value = '';
 }
