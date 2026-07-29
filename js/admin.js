@@ -1115,6 +1115,8 @@ function refreshAll() {
   renderAdminMessages();
   renderAdminSubscribers();
   updateNotificationBadge();
+  renderNotifDropdown();
+  renderNotificationsTable();
 }
 
 document.addEventListener('DOMContentLoaded', () => {
