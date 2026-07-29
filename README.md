@@ -33,7 +33,7 @@
 | **Wishlist Viewer** | View all wishlisted products per user |
 | **Messages** | View contact form submissions, mark as read |
 | **Subscribers** | View newsletter subscribers, mark as read |
-| **Notifications** | Dedicated admin section + bell dropdown showing all activity |
+| **Notifications** | Dedicated admin section (bottom of admin page) + bell dropdown showing all activity |
 | **Website Settings** | Editable content for all pages: hero, featured, testimonials, newsletter, about, contact, footer |
 
 ### ⚙️ Website Settings
