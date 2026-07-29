@@ -32,7 +32,7 @@ const DEFAULT_CATEGORIES = [
 
 const DEFAULT_SETTINGS = {
   logo: 'ChocoDelight BD',
-  logoIcon: '',
+  logoIcon: 'assets/images/logo.png',
   favicon: '',
   menu: ['Home', 'Shop', 'About', 'Contact'],
   footer: '42 Gulshan Avenue, Dhaka 1212, Bangladesh | +880 1712-345678 | hello@chocodelightbd.com | Sat-Thu: 9AM - 9PM',
@@ -202,6 +202,7 @@ function migrateSettings(settings) {
 }
 
 function fillMissingDefaults(s) {
+  const before = JSON.stringify(s);
   const groups = ['home', 'shop', 'about', 'contact'];
   groups.forEach(group => {
     if (!s[group] || typeof s[group] !== 'object') {
@@ -223,6 +224,11 @@ function fillMissingDefaults(s) {
       s[key] = DEFAULT_SETTINGS[key];
     }
   });
+  const after = JSON.stringify(s);
+  if (before !== after) {
+    localStorage.setItem(STORAGE_KEYS.settings, JSON.stringify(s));
+    console.log('[data.js] fillMissingDefaults() - persisted updated settings');
+  }
   return s;
 }
 
@@ -302,10 +308,14 @@ function applySettings() {
   const s = getSettings();
   console.log('[data.js] applySettings() - applying:', JSON.stringify(s));
 
-  const logoLinks = document.querySelectorAll('a.logo');
+  const logoLinks = document.querySelectorAll('a.logo, a.sidebar-brand');
   logoLinks.forEach(link => {
     if (s.logoIcon) {
-      link.innerHTML = '<img src="' + s.logoIcon + '" alt="' + (s.logo || 'ChocoDelight BD') + '" style="height:40px;width:auto;object-fit:contain;">';
+      const iconEl = link.querySelector('[data-dynamic="logoIcon"]');
+      if (iconEl) {
+        const sz = link.closest('.footer-brand') ? '50px' : link.classList.contains('sidebar-brand') ? '35px' : '50px';
+        iconEl.innerHTML = '<img src="' + s.logoIcon + '" alt="' + (s.logo || 'ChocoDelight BD') + '" style="height:' + sz + ';width:auto;object-fit:contain;">';
+      }
     } else {
       const hasIcon = link.querySelector('[data-dynamic="logoIcon"]');
       const hasText = link.querySelector('[data-dynamic="logo"]');

@@ -85,6 +85,13 @@ img { max-width: 100%; }
   font-size: 1rem;
 }
 
+.sidebar-brand img {
+  filter: brightness(0) invert(1);
+  height: 35px;
+  width: auto;
+  object-fit: contain;
+}
+
 .sidebar-nav {
   flex: 1;
   padding: 20px 0;

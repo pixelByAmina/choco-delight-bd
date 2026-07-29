@@ -173,6 +173,12 @@ img { max-width: 100%; display: block; }
   font-size: 1.2rem;
 }
 
+.navbar .logo .logo-icon {
+  width: 56px;
+  height: 56px;
+  background: var(--accent);
+}
+
 .nav-links {
   display: flex;
   align-items: center;
@@ -883,6 +889,25 @@ img { max-width: 100%; display: block; }
 .footer-brand .logo {
   color: var(--white);
   margin-bottom: 15px;
+  gap: 12px;
+}
+
+.footer-brand .logo .logo-icon {
+  background: var(--accent);
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.footer-brand .logo .logo-icon img {
+  filter: brightness(0) invert(1);
+  height: 50px;
+  width: auto;
+  object-fit: contain;
+  display: block;
 }
 
 .footer-brand p {

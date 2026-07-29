@@ -643,7 +643,7 @@ function loadSettings() {
   if (data) { try { s = JSON.parse(data); } catch (e) { s = {}; } }
 
   document.getElementById('settingLogo').value = s.logo || DEFAULT_SETTINGS.logo;
-  document.getElementById('settingLogoIcon').value = s.logoIcon || '';
+  document.getElementById('settingLogoIcon').value = s.logoIcon || DEFAULT_SETTINGS.logoIcon || '';
   document.getElementById('settingFavicon').value = s.favicon || DEFAULT_SETTINGS.favicon || '';
   document.getElementById('settingFooter').value = s.footer || DEFAULT_SETTINGS.footer;
   document.getElementById('settingMenu').value = Array.isArray(s.menu) ? s.menu.join(', ') : (Array.isArray(DEFAULT_SETTINGS.menu) ? DEFAULT_SETTINGS.menu.join(', ') : '');
@@ -1085,6 +1085,8 @@ document.addEventListener('DOMContentLoaded', () => {
   if (pp5) pp5.value = getWishlistPerPage();
   refreshAll();
   loadSettings();
+  applySettings();
+  window.addEventListener('custom:settingsChanged', () => { applySettings(); });
   window.addEventListener('custom:productsChanged', () => { refreshAll(); });
   window.addEventListener('ordersChanged', () => { ordersPage = 1; refreshAll(); });
   window.addEventListener('contactMessagesChanged', () => { refreshAll(); });
