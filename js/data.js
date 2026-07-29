@@ -308,7 +308,7 @@ function applySettings() {
   const s = getSettings();
   console.log('[data.js] applySettings() - applying:', JSON.stringify(s));
 
-  const logoLinks = document.querySelectorAll('a.logo, a.sidebar-brand');
+  const logoLinks = document.querySelectorAll('a.logo, a.sidebar-brand, .login-logo');
   logoLinks.forEach(link => {
     if (s.logoIcon) {
       const iconEl = link.querySelector('[data-dynamic="logoIcon"]');

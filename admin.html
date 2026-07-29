@@ -97,6 +97,9 @@
     .login-overlay { display: flex; position: fixed; inset: 0; background: linear-gradient(135deg, var(--primary) 0%, #3A1F14 100%); z-index: 9999; align-items: center; justify-content: center; }
     .login-overlay.hidden { display: none; }
     .login-card { background: var(--white); border-radius: 20px; padding: 40px 36px; width: 380px; max-width: 90vw; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+    .login-logo { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 16px; font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; color: var(--primary); }
+    .login-logo .logo-icon { width: 56px; height: 56px; background: var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+    .login-logo .logo-icon img { height: 50px; width: auto; object-fit: contain; }
     .login-icon { font-size: 3rem; margin-bottom: 6px; }
     .login-card h2 { font-size: 1.4rem; color: var(--primary); margin-bottom: 4px; }
     .login-field { text-align: left; margin-bottom: 14px; }
@@ -114,9 +117,12 @@
   <!-- Login Overlay -->
   <div class="login-overlay" id="loginOverlay">
     <div class="login-card">
-      <div class="login-icon">&#127851;</div>
+      <div class="login-logo">
+        <div class="logo-icon" data-dynamic="logoIcon">&#127851;</div>
+        <span data-dynamic="logo">ChocoDelight BD</span>
+      </div>
       <h2>Admin Login</h2>
-      <p style="color:var(--gray);font-size:0.85rem;margin-bottom:20px;">ChocoDelight BD Management Panel</p>
+      <p style="color:var(--gray);font-size:0.85rem;margin-bottom:20px;">Management Panel</p>
       <form onsubmit="adminLogin(event)" style="width:100%;">
         <div class="login-field">
           <label><i class="fas fa-user"></i> Username</label>
