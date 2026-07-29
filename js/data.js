@@ -302,15 +302,19 @@ function applySettings() {
   const s = getSettings();
   console.log('[data.js] applySettings() - applying:', JSON.stringify(s));
 
-  const logoEls = document.querySelectorAll('[data-dynamic="logo"]');
-  logoEls.forEach(el => { el.textContent = s.logo || 'ChocoDelight BD'; });
-
-  const iconEls = document.querySelectorAll('[data-dynamic="logoIcon"]');
-  iconEls.forEach(el => {
+  const logoLinks = document.querySelectorAll('a.logo');
+  logoLinks.forEach(link => {
     if (s.logoIcon) {
-      el.innerHTML = '<img src="' + s.logoIcon + '" alt="Logo" style="width:100%;height:100%;object-fit:contain;border-radius:inherit;">';
-    } else if (!el.querySelector('img')) {
-      el.innerHTML = '&#127851;';
+      link.innerHTML = '<img src="' + s.logoIcon + '" alt="' + (s.logo || 'ChocoDelight BD') + '" style="height:40px;width:auto;object-fit:contain;">';
+    } else {
+      const hasIcon = link.querySelector('[data-dynamic="logoIcon"]');
+      const hasText = link.querySelector('[data-dynamic="logo"]');
+      if (!hasIcon) {
+        link.innerHTML = '<div class="logo-icon" data-dynamic="logoIcon">&#127851;</div><span data-dynamic="logo">' + (s.logo || 'ChocoDelight BD') + '</span>';
+      } else {
+        if (hasIcon && !hasIcon.querySelector('img')) hasIcon.innerHTML = '&#127851;';
+        if (hasText) hasText.textContent = s.logo || 'ChocoDelight BD';
+      }
     }
   });
 
