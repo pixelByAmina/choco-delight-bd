@@ -32,7 +32,7 @@ const DEFAULT_CATEGORIES = [
 
 const DEFAULT_SETTINGS = {
   logo: 'ChocoDelight BD',
-  logoIcon: '&#127851;',
+  logoIcon: '',
   favicon: '',
   menu: ['Home', 'Shop', 'About', 'Contact'],
   footer: '42 Gulshan Avenue, Dhaka 1212, Bangladesh | +880 1712-345678 | hello@chocodelightbd.com | Sat-Thu: 9AM - 9PM',
@@ -306,7 +306,13 @@ function applySettings() {
   logoEls.forEach(el => { el.textContent = s.logo || 'ChocoDelight BD'; });
 
   const iconEls = document.querySelectorAll('[data-dynamic="logoIcon"]');
-  iconEls.forEach(el => { el.innerHTML = s.logoIcon || '&#127851;'; });
+  iconEls.forEach(el => {
+    if (s.logoIcon) {
+      el.innerHTML = '<img src="' + s.logoIcon + '" alt="Logo" style="width:100%;height:100%;object-fit:contain;border-radius:inherit;">';
+    } else if (!el.querySelector('img')) {
+      el.innerHTML = '&#127851;';
+    }
+  });
 
   const faviconEl = document.querySelector('[data-dynamic="favicon"]');
   if (faviconEl && s.favicon) faviconEl.href = s.favicon;
