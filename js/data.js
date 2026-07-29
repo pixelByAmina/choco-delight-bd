@@ -32,6 +32,8 @@ const DEFAULT_CATEGORIES = [
 
 const DEFAULT_SETTINGS = {
   logo: 'ChocoDelight BD',
+  logoIcon: '&#127851;',
+  favicon: '',
   menu: ['Home', 'Shop', 'About', 'Contact'],
   footer: '42 Gulshan Avenue, Dhaka 1212, Bangladesh | +880 1712-345678 | hello@chocodelightbd.com | Sat-Thu: 9AM - 9PM',
   footerAddress: '42 Gulshan Avenue, Dhaka 1212, Bangladesh',
@@ -172,6 +174,8 @@ function migrateSettings(settings) {
 
   const migrated = {
     logo: settings.logo || DEFAULT_SETTINGS.logo,
+    logoIcon: settings.logoIcon || DEFAULT_SETTINGS.logoIcon,
+    favicon: settings.favicon || DEFAULT_SETTINGS.favicon,
     menu: Array.isArray(settings.menu) ? settings.menu : DEFAULT_SETTINGS.menu,
     footer: settings.footer || DEFAULT_SETTINGS.footer,
     footerAddress: settings.footerAddress || DEFAULT_SETTINGS.footerAddress,
@@ -210,7 +214,7 @@ function fillMissingDefaults(s) {
       });
     }
   });
-  const footerFields = ['footerAddress', 'footerPhone', 'footerEmail', 'footerHours', 'footerQuickLinks', 'footerCategoryLinks', 'footerFacebook', 'footerInstagram', 'footerYoutube', 'footerWhatsapp'];
+  const footerFields = ['footerAddress', 'footerPhone', 'footerEmail', 'footerHours', 'footerQuickLinks', 'footerCategoryLinks', 'footerFacebook', 'footerInstagram', 'footerYoutube', 'footerWhatsapp', 'logoIcon', 'favicon'];
   footerFields.forEach(key => {
     if (s[key] === undefined || s[key] === '') {
       s[key] = DEFAULT_SETTINGS[key];
@@ -301,6 +305,12 @@ function applySettings() {
   const logoEls = document.querySelectorAll('[data-dynamic="logo"]');
   logoEls.forEach(el => { el.textContent = s.logo || 'ChocoDelight BD'; });
 
+  const iconEls = document.querySelectorAll('[data-dynamic="logoIcon"]');
+  iconEls.forEach(el => { el.innerHTML = s.logoIcon || '&#127851;'; });
+
+  const faviconEl = document.querySelector('[data-dynamic="favicon"]');
+  if (faviconEl && s.favicon) faviconEl.href = s.favicon;
+
   const menuContainer = document.querySelector('[data-dynamic="menu"]');
   if (menuContainer) {
     const currentPath = window.location.pathname.split('/').pop() || 'index.html';
@@ -385,7 +395,7 @@ function applySettings() {
 
   document.querySelectorAll('[data-dynamic]').forEach(el => {
     const key = el.dataset.dynamic;
-    if (['logo','menu','footer','footer-address','footer-phone','footer-email','footer-hours','footerQuickLinks','footerCategoryLinks','copyright','categories'].includes(key) || key.startsWith('footerSocial-')) return;
+    if (['logo','menu','footer','footer-address','footer-phone','footer-email','footer-hours','footerQuickLinks','footerCategoryLinks','copyright','categories','logoIcon','favicon'].includes(key) || key.startsWith('footerSocial-')) return;
     if (flatLookup[key] !== undefined) {
       el.innerHTML = flatLookup[key] || el.innerHTML;
     }

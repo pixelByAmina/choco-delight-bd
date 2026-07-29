@@ -635,7 +635,7 @@ Object.keys(SETTINGS_GROUPS).forEach(group => {
   SETTINGS_GROUPS[group].forEach(key => { KEY_TO_GROUP[key] = group; });
 });
 
-const TOP_LEVEL_IDS = ['settingLogo', 'settingMenu', 'settingFooter', 'footerAddress', 'footerPhone', 'footerEmail', 'footerHours', 'footerQuickLinks', 'footerCategoryLinks', 'footerFacebook', 'footerInstagram', 'footerYoutube', 'footerWhatsapp'];
+const TOP_LEVEL_IDS = ['settingLogo', 'settingLogoIcon', 'settingFavicon', 'settingMenu', 'settingFooter', 'footerAddress', 'footerPhone', 'footerEmail', 'footerHours', 'footerQuickLinks', 'footerCategoryLinks', 'footerFacebook', 'footerInstagram', 'footerYoutube', 'footerWhatsapp'];
 
 function loadSettings() {
   const data = localStorage.getItem(STORAGE_KEYS.settings);
@@ -643,6 +643,8 @@ function loadSettings() {
   if (data) { try { s = JSON.parse(data); } catch (e) { s = {}; } }
 
   document.getElementById('settingLogo').value = s.logo || DEFAULT_SETTINGS.logo;
+  document.getElementById('settingLogoIcon').value = s.logoIcon || DEFAULT_SETTINGS.logoIcon || '';
+  document.getElementById('settingFavicon').value = s.favicon || DEFAULT_SETTINGS.favicon || '';
   document.getElementById('settingFooter').value = s.footer || DEFAULT_SETTINGS.footer;
   document.getElementById('settingMenu').value = Array.isArray(s.menu) ? s.menu.join(', ') : (Array.isArray(DEFAULT_SETTINGS.menu) ? DEFAULT_SETTINGS.menu.join(', ') : '');
   document.getElementById('footerAddress').value = s.footerAddress || DEFAULT_SETTINGS.footerAddress || '';
@@ -720,6 +722,8 @@ function saveSettingsForm() {
   const data = localStorage.getItem(STORAGE_KEYS.settings);
   const settings = data ? JSON.parse(data) : {};
   settings.logo = logo;
+  settings.logoIcon = document.getElementById('settingLogoIcon').value.trim();
+  settings.favicon = document.getElementById('settingFavicon').value.trim();
   settings.menu = menu;
   settings.footer = document.getElementById('settingFooter').value.trim();
 

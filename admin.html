@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin - ChocoDelight BD</title>
+  <link rel="icon" data-dynamic="favicon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>&#127851;</text></svg>">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" href="css/admin.css">
   <style>
@@ -134,7 +135,7 @@
   <div class="admin-layout" id="adminLayout">
     <aside class="sidebar">
       <a href="index.html" class="sidebar-brand" style="text-decoration:none;display:flex;align-items:center;gap:10px;">
-        <div class="logo-icon">&#127851;</div>
+        <div class="logo-icon" data-dynamic="logoIcon">&#127851;</div>
         <span>ChocoDelight BD</span>
       </a>
       <nav class="sidebar-nav">
@@ -446,6 +447,14 @@
             <div class="form-group">
               <label>Footer Contact Info</label>
               <textarea id="settingFooter" placeholder="42 Gulshan Avenue, Dhaka 1212" style="min-height:60px;"></textarea>
+            </div>
+            <div class="form-group">
+              <label>Logo Icon (emoji or HTML)</label>
+              <input type="text" id="settingLogoIcon" placeholder="&#127851;">
+            </div>
+            <div class="form-group">
+              <label>Favicon URL</label>
+              <input type="url" id="settingFavicon" placeholder="https://example.com/favicon.ico">
             </div>
           </div>
         </div>
