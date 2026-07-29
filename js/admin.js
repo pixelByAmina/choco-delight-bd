@@ -47,10 +47,10 @@ function adminLogout() {
   document.getElementById('loginPass').value = '';
 }
 function getMsgsPerPage() { return parseInt(localStorage.getItem('adminMsgsPerPage')) || 10; }
-function getSubsPerPage() { return parseInt(localStorage.getItem('adminSubsPerPage')) || 15; }
-function getWishlistPerPage() { return parseInt(localStorage.getItem('adminWishlistPerPage')) || 20; }
-function getAdminPerPage() { return parseInt(localStorage.getItem('adminPerPage')) || 20; }
-function getAdminProductsPerPage() { return parseInt(localStorage.getItem('adminProductsPerPage')) || 20; }
+function getSubsPerPage() { return parseInt(localStorage.getItem('adminSubsPerPage')) || 10; }
+function getWishlistPerPage() { return parseInt(localStorage.getItem('adminWishlistPerPage')) || 10; }
+function getAdminPerPage() { return parseInt(localStorage.getItem('adminPerPage')) || 10; }
+function getAdminProductsPerPage() { return parseInt(localStorage.getItem('adminProductsPerPage')) || 10; }
 
 function showToast(message, type) {
   const toast = document.getElementById('adminToast');

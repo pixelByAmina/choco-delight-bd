@@ -141,7 +141,7 @@ function renderFeaturedProducts() {
 }
 
 let shopPage = 1;
-function getPerPage() { return parseInt(localStorage.getItem('shopPerPage')) || 20; }
+function getPerPage() { return parseInt(localStorage.getItem('shopPerPage')) || 10; }
 
 function renderProducts(productList) {
   const grid = document.getElementById('productGrid');
