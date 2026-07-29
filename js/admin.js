@@ -731,6 +731,51 @@ function saveSettingsForm() {
   showToast('Logo & Navigation saved!', 'success');
 }
 
+function saveAllSettings() {
+  const data = localStorage.getItem(STORAGE_KEYS.settings);
+  const settings = data ? JSON.parse(data) : {};
+  if (!settings.home) settings.home = {};
+  if (!settings.shop) settings.shop = {};
+  if (!settings.about) settings.about = {};
+  if (!settings.contact) settings.contact = {};
+
+  const logo = document.getElementById('settingLogo').value.trim();
+  if (!logo) { showToast('Logo text cannot be empty.', 'error'); return; }
+  const menuRaw = document.getElementById('settingMenu').value.trim();
+  const menu = menuRaw ? menuRaw.split(',').map(s => s.trim()).filter(s => s) : [];
+  if (menu.length === 0) { showToast('Add at least one menu item (comma separated).', 'error'); return; }
+
+  settings.logo = logo;
+  settings.logoIcon = document.getElementById('settingLogoIcon').value.trim();
+  settings.favicon = document.getElementById('settingFavicon').value.trim();
+  settings.menu = menu;
+  settings.footer = document.getElementById('settingFooter').value.trim();
+
+  settings.footerAddress = document.getElementById('footerAddress').value.trim();
+  settings.footerPhone = document.getElementById('footerPhone').value.trim();
+  settings.footerEmail = document.getElementById('footerEmail').value.trim();
+  settings.footerHours = document.getElementById('footerHours').value.trim();
+  const qlRaw = document.getElementById('footerQuickLinks').value.trim();
+  settings.footerQuickLinks = qlRaw ? qlRaw.split(',').map(s => s.trim()).filter(s => s) : [];
+  const catRaw = document.getElementById('footerCategoryLinks').value.trim();
+  settings.footerCategoryLinks = catRaw ? catRaw.split(',').map(s => s.trim()).filter(s => s) : [];
+  settings.footerFacebook = document.getElementById('footerFacebook').value.trim();
+  settings.footerInstagram = document.getElementById('footerInstagram').value.trim();
+  settings.footerYoutube = document.getElementById('footerYoutube').value.trim();
+  settings.footerWhatsapp = document.getElementById('footerWhatsapp').value.trim();
+
+  const groups = { home: HOME_KEYS, shop: SHOP_KEYS, about: ABOUT_KEYS, contact: CONTACT_KEYS };
+  Object.keys(groups).forEach(section => {
+    groups[section].forEach(key => {
+      const el = document.getElementById(key);
+      if (el) settings[section][key] = el.value.trim();
+    });
+  });
+
+  saveSettings(settings);
+  showToast('All settings saved!', 'success');
+}
+
 function adminPagination(containerId, currentPage, totalPages, onPageClick) {
   const container = document.getElementById(containerId);
   if (!container) return;
