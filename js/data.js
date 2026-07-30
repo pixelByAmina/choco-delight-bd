@@ -34,7 +34,7 @@ const DEFAULT_SETTINGS = {
   logo: 'ChocoDelight BD',
   logoIcon: 'assets/images/logo.png',
   favicon: '',
-  menu: ['Home', 'Shop', 'About', 'Contact'],
+  menu: ['Home', 'Shop', 'About', 'Contact', 'Admin'],
   footer: '42 Gulshan Avenue, Dhaka 1212, Bangladesh | +880 1712-345678 | hello@chocodelightbd.com | Sat-Thu: 9AM - 9PM',
   footerAddress: '42 Gulshan Avenue, Dhaka 1212, Bangladesh',
   footerPhone: '+880 1712-345678',
@@ -215,6 +215,10 @@ function fillMissingDefaults(s) {
       });
     }
   });
+  if (Array.isArray(s.menu) && !s.menu.includes('Admin')) {
+    s.menu.push('Admin');
+  }
+
   const footerFields = ['footerAddress', 'footerPhone', 'footerEmail', 'footerHours', 'footerQuickLinks', 'footerCategoryLinks', 'footerFacebook', 'footerInstagram', 'footerYoutube', 'footerWhatsapp', 'logoIcon', 'favicon'];
   footerFields.forEach(key => {
     if (s[key] === undefined || s[key] === '') {
@@ -292,7 +296,7 @@ function generateId() {
 }
 
 function labelToUrl(label) {
-  const map = { 'Home': 'index.html' };
+  const map = { 'Home': 'index.html', 'Admin': 'admin.html' };
   return map[label] || label.toLowerCase().replace(/\s+/g, '-') + '.html';
 }
 
